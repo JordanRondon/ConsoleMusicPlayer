@@ -4,7 +4,7 @@
 
 class CircularDoublyLinkedList {
 	private:
-		Node* CircularList;
+		Node* list;
 
 	public:
 		CircularDoublyLinkedList();
@@ -12,8 +12,8 @@ class CircularDoublyLinkedList {
 		Node* getList();
 		void insertEnd(Music musicInf);
 		void deletePosition(int position);
-		void searchElement(std::string musicName);
-		void count();
+		bool searchElement(std::string musicName);
+		int count();
 		Node* next();
 		Node* before();
 };

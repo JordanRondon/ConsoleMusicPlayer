@@ -4,5 +4,5 @@
 struct Node {
 	Music MusicObj;
 	Node* next;
-	Node* before;
+	Node* previous;
 };
