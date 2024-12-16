@@ -50,18 +50,21 @@ void CircularDoublyLinkedList::deletePosition(int index) {
 				currentNode = currentNode->next;
 		} while (currentPosition < index && currentNode != list);
 
-		if (currentNode->previous == list->previous) {//elimina el primer nodo
-			//verifica si el dato a eliminar esta en el inicio de lista
-			list = currentNode->next;//actualiza una posicion adelante el inicio de lista
+		if (currentNode->previous == list->previous) {
+			//remove the first node
+			//checks if the data to be deleted is at the beginning of the list
+			list = currentNode->next;
 			list->previous = currentNode->previous;
 			list->previous->next = list;
 		}
-		else if (currentNode->next == list) {//elimina el ultimo nodo
-			//verifica si el dato a eliminar esta en el final de lista
+		else if (currentNode->next == list) {
+			//remove the last node
+			//checks if the data to be deleted is at the end of the list
 			currentNode->previous->next = list;
 			list->previous = currentNode->previous;
 		}
-		else {//elimina en cualquier posición
+		else {
+			//delete at any position
 			currentNode->previous->next = currentNode->next;
 			currentNode->next->previous = currentNode->previous;
 		}
