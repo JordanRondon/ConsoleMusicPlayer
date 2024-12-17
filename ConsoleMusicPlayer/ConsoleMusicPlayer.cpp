@@ -1,42 +1,50 @@
 #include <iostream>
-//#include "bass.h"
+#include "MusicPlayer.h"
 
 using namespace std;
 
 int main() {
-    // Inicializar BASS
-    //if (!BASS_Init(-1, 44100, 0, 0, NULL)) {
-    //    std::cerr << "Error al inicializar BASS: " << BASS_ErrorGetCode() << std::endl;
-    //    return 1;
-    //}
+    
+    //MusicPlayer player;
 
-    //// Cargar un archivo MP3
-    //const char* filePath = "C:\\Users\\JORDAN\\Music\\asd.mp3";
-    //HSTREAM stream = BASS_StreamCreateFile(FALSE, filePath, 0, 0, 0);
-    //if (!stream) {
-    //    std::cerr << "Error al cargar el archivo MP3: " << BASS_ErrorGetCode() << std::endl;
-    //    BASS_Free();
-    //    return 1;
-    //}
+    //player.load("C:/Users/JORDAN/Music/asd.mp3");
+    //player.play();
 
-    //// Reproducir el archivo
-    //if (!BASS_ChannelPlay(stream, FALSE)) {
-    //    std::cerr << "Error al reproducir el archivo: " << BASS_ErrorGetCode() << std::endl;
-    //    BASS_StreamFree(stream);
-    //    BASS_Free();
-    //    return 1;
-    //}
-
-    //std::cout << "Reproduciendo música. Presiona Enter para detener..." << std::endl;
+    //// Espera por la entrada del usuario para detener la música
     //std::cin.get();
 
-    //QWORD length = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
-    //double duration = BASS_ChannelBytes2Seconds(stream, length);
-    //std::cout << "Duración: " << duration << " segundos" << std::endl;
+    try {
+        MusicPlayer player;
 
-    //// Liberar recursos
-    //BASS_StreamFree(stream);
-    //BASS_Free();
+        // Ruta del archivo MP3
+        const char* filePath = "C:/Users/JORDAN/Music/asd.mp3";
+
+        player.load(filePath);
+        player.play();
+
+        // Espera por la entrada del usuario para controlar la música
+        char input;
+        while (true) {
+            std::cout << "Comandos: (f) Adelantar 5s, (b) Retroceder 5s, (q) Detener\n";
+            std::cin >> input;
+
+            if (input == 'f') {
+                player.seekForward(); // Adelantar 5 segundos
+            }
+            else if (input == 'b') {
+                player.seekBackward(); // Retroceder 5 segundos
+            }
+            else if (input == 'q') {
+                player.stop(); // Detener la reproducción
+                break;
+            }
+        }
+
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Excepción: " << e.what() << std::endl;
+        return 1;
+    }
 
     return 0;
 }
