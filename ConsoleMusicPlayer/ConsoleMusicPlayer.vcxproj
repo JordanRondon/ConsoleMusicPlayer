@@ -135,14 +135,16 @@
   <ItemGroup>
     <ClCompile Include="CircularDoublyLinkedList.cpp" />
     <ClCompile Include="ConsoleMusicPlayer.cpp" />
-    <ClCompile Include="Music.cpp" />
+    <ClCompile Include="MusicData.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
+    <ClCompile Include="style.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularDoublyLinkedList.h" />
     <ClInclude Include="MusicData.h" />
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="style.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
