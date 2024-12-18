@@ -102,11 +102,3 @@ int CircularDoublyLinkedList::count() {
 
 	return totalItems;
 }
-
-Node* CircularDoublyLinkedList::next() {
-	return list->next;
-}
-
-Node* CircularDoublyLinkedList::before() {
-	return list->previous;
-}
