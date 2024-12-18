@@ -1,47 +1,34 @@
 #include <iostream>
+#include <filesystem>
+#include "CircularDoublyLinkedList.h"
+#include "MusicData.h"
 #include "MusicPlayer.h"
 #include "style.h"
 
 using namespace std;
 
+void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list);
+
 int main() {
 
-    musicBox(4, 70, 25, 2);
-    listBox(10, 70, 25, 8);
-    gotoxy(2, 22);
+    CircularDoublyLinkedList list;
 
-    //try {
-    //    MusicPlayer player;
-
-    //    // Ruta del archivo MP3
-    //    const char* filePath = "C:/Users/JORDAN/Music/asd.mp3";
-
-    //    player.load(filePath);
-    //    player.play();
-
-    //    // Espera por la entrada del usuario para controlar la música
-    //    char input;
-    //    while (true) {
-    //        std::cout << "Comandos: (f) Adelantar 5s, (b) Retroceder 5s, (q) Detener\n";
-    //        std::cin >> input;
-
-    //        if (input == 'f') {
-    //            player.seekForward(); // Adelantar 5 segundos
-    //        }
-    //        else if (input == 'b') {
-    //            player.seekBackward(); // Retroceder 5 segundos
-    //        }
-    //        else if (input == 'q') {
-    //            player.stop(); // Detener la reproducción
-    //            break;
-    //        }
-    //    }
-
-    //}
-    //catch (const std::exception& e) {
-    //    std::cerr << "Excepción: " << e.what() << std::endl;
-    //    return 1;
-    //}
+    const char* carpeta = "C:/Users/JORDAN/Music/";
+    loadFileMp3(carpeta, list);
 
     return 0;
+}
+
+void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list) {
+    Music musicData;
+    MusicPlayer musicP;
+
+    for (auto const& dir_entry : filesystem::directory_iterator(ruta)) {
+        if (dir_entry.is_regular_file() && dir_entry.path().extension() == ".mp3") {
+            musicData.setName(dir_entry.path().filename().string());
+            musicP.load(dir_entry.path().string().c_str());
+            musicData.setDurationSeconds(musicP.getDuration());
+            list.insertEnd(musicData);
+        }
+    }
 }
