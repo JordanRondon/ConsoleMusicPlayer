@@ -14,6 +14,4 @@ class CircularDoublyLinkedList {
 		void deletePosition(int position);
 		bool searchElement(std::string musicName);
 		int count();
-		Node* next();
-		Node* before();
 };

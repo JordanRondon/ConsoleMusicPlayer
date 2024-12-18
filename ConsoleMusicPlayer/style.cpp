@@ -40,7 +40,7 @@ void gotoxy(int posX, int posY) {
 //	return opcion;
 //}
 
-void musicBox(int height, int width, int posX, int posY) {
+void box(int height, int width, int posX, int posY) {
 	//-----------------horizontal lines--------------------
 	for (int i = 0; i < width; i++) {
 		gotoxy(posX + i, posY); std::cout << (char)205; //top
@@ -115,4 +115,38 @@ void barraDeProgreso(int width, int posX, int posY) {
 		gotoxy(posX + i, posY); std::cout << (char)220;
 		Sleep(100);//retarda por cierto tiempo el proceso
 	}
+}
+
+int filePathOption(int height, int width, int posX, int posY) {
+	int option = 0;
+
+	do {
+		box(height, width, posX, posY);
+		gotoxy(posX + (width / 3.5), posY + 2); std::cout << ".:Welcome to the music console:.";
+		gotoxy(posX + (width / 4), posY + 4); std::cout << "Where is your music located?";
+		gotoxy(posX + (width / 4), posY + 5); std::cout << "Select an option:";
+		gotoxy(posX + (width / 4), posY + 7); std::cout << "1. Default folder \"Music\"";
+		gotoxy(posX + (width / 4), posY + 8); std::cout << "2. Enter the path to my music folder";
+		gotoxy(posX + (width / 4), posY + 10); std::cout << "Please choose an option (1 or 2): ";
+		std::cin >> option;
+		system("cls");
+	} while (!(option != 0 && (option == 1 || option == 2)));
+	
+	return option;
+}
+
+std::string filePathString(int height, int width, int posX, int posY) {
+	std::string path = "";
+
+	do {
+		box(height, width, posX, posY);
+		gotoxy(posX + (width / 3.5), posY + 2); std::cout << ".:Welcome to the music console:.";
+		gotoxy(posX + (width / 4), posY + 5); std::cout << "Enter the path of the music folder";
+		gotoxy(posX + (width / 4), posY + 6); std::cout << "example: \"C:/Users/profile/Music/\"";
+		gotoxy(posX + (width / 4), posY + 8); std::cout << "path: ";
+		std::cin >> path;
+		system("cls");
+	} while (path == "");
+
+	return path;
 }
