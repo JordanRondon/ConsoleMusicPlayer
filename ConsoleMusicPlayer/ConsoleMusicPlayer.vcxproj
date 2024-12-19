@@ -137,12 +137,14 @@
   <ItemGroup>
     <ClCompile Include="CircularDoublyLinkedList.cpp" />
     <ClCompile Include="ConsoleMusicPlayer.cpp" />
+    <ClCompile Include="FileUtils.cpp" />
     <ClCompile Include="MusicData.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="style.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CircularDoublyLinkedList.h" />
+    <ClInclude Include="FileUtils.h" />
     <ClInclude Include="MusicData.h" />
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Node.h" />
