@@ -6,6 +6,7 @@ class MusicPlayer {
 	private:
 		HSTREAM stream;
         float volume;
+        bool stoppedManually;
 	
 	public:
         MusicPlayer();
@@ -21,4 +22,5 @@ class MusicPlayer {
         void freeUpResources();
         void volumeUp();
         void volumeDown();
+        bool isFinished();
 };

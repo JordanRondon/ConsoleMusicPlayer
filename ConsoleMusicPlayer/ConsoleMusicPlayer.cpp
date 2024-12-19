@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <filesystem>
+#include <atomic>
+#include <thread>
 #include <conio.h>
 #include "CircularDoublyLinkedList.h"
 #include "MusicData.h"
@@ -20,6 +22,7 @@ using namespace std;
 
 string getUserMusicPath();
 void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list, MusicPlayer& musicP);
+void threadNexSong(MusicPlayer& MusicP, CircularDoublyLinkedList& list, string& currentMusicPath, std::atomic<bool>& running);
 
 int main() {
 
@@ -48,9 +51,11 @@ int main() {
     char keyPress = NULL;
     string currentMusicPath = "";
 
+    std::atomic<bool> running(true);
+    std::thread threadMusic (threadNexSong, std::ref(MusicP), std::ref(list), std::ref(currentMusicPath), std::ref(running));
+
     do {
-        box(4, boxWidth, boxPosX, 2);
-        showSelectedMusic(boxPosX, 2, list.getCurrentNode(), MusicP.getVolume());
+        musicListInterface(boxHeight, boxWidth, boxPosX, boxPosY, list, MusicP);
 
         string musicPath = getUserMusicPath() + '/' + list.getCurrentNode()->MusicObj.getName();
         std::replace(musicPath.begin(), musicPath.end(), '\\', '/');
@@ -61,9 +66,6 @@ int main() {
             MusicP.play();
             currentMusicPath = musicPath;
         }
-
-        listBox(boxHeight, boxWidth, boxPosX, boxPosY);
-        showMusicList(boxPosX, boxPosY, list.getList());
 
         gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
         cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
@@ -100,6 +102,9 @@ int main() {
         }
         system("CLS");
     } while (keyPress != QUIT);
+
+    running = false;
+    threadMusic.join();
 
     return 0;
 }
@@ -138,4 +143,19 @@ void loadFileMp3(const char* path, CircularDoublyLinkedList& list, MusicPlayer& 
             list.insertEnd(musicData);
         }
     }
+}
+
+void threadNexSong(MusicPlayer& MusicP, CircularDoublyLinkedList& list, string& currentMusicPath, std::atomic<bool>& running) {
+    while (running) {
+        if (MusicP.isFinished()) {
+            list.nextNode();
+            string musicPath = getUserMusicPath() + '/' + list.getCurrentNode()->MusicObj.getName();
+            std::replace(musicPath.begin(), musicPath.end(), '\\', '/');
+            MusicP.load(musicPath.c_str());
+            currentMusicPath = musicPath;
+            MusicP.play();
+        }
+        Sleep(100);
+    }
+    if (!running) MusicP.stop();
 }

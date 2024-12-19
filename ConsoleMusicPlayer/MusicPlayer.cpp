@@ -1,7 +1,7 @@
 #include <iostream>
 #include "MusicPlayer.h"
 
-MusicPlayer::MusicPlayer(): stream(0), volume(1.0f) {
+MusicPlayer::MusicPlayer(): stream(0), volume(1.0f), stoppedManually(false){
     if (!BASS_Init(-1, 44100, 0, 0, NULL)) {
         std::cerr << "Error initializing BASS: " << BASS_ErrorGetCode() << std::endl;
     }
@@ -30,10 +30,12 @@ void MusicPlayer::play() {
         std::cerr << "Error playing file: " << BASS_ErrorGetCode() << std::endl;
         BASS_StreamFree(this->stream);
     }
+    this->stoppedManually = false;
 }
 
 void MusicPlayer::stop() {
     BASS_ChannelStop(this->stream);
+    this->stoppedManually = true;
 }
 
 void MusicPlayer::seekForward() {
@@ -99,4 +101,8 @@ void MusicPlayer::volumeDown() {
     if (!BASS_ChannelSetAttribute(this->stream, BASS_ATTRIB_VOL, volume)) {
         std::cerr << "Error al configurar el volumen" << std::endl;
     }
+}
+
+bool MusicPlayer::isFinished() {
+    return !this->stoppedManually && BASS_ChannelIsActive(this->stream) == BASS_ACTIVE_STOPPED;
 }
