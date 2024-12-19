@@ -6,9 +6,9 @@
 #include "MusicPlayer.h"
 #include "style.h"
 
-#define QUIT 113        // 'q': Quit
-#define PLAY 112        // 'P': Play
-#define STOP 115        // 's': Stop
+#define QUIT 113        // 'q' -> Quit
+#define PLAY 112        // 'P' -> Play
+#define STOP 115        // 's' -> Stop
 #define FASTFORWARD 102 // 'f' -> Forward
 #define REWIND 114      // 'r' -> Rewind
 #define NEXT 110        // 'n' -> Next
@@ -17,7 +17,7 @@
 using namespace std;
 
 string getUserMusicPath();
-void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list);
+void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list, MusicPlayer& musicP);
 
 int main() {
 
@@ -27,26 +27,38 @@ int main() {
     int boxPosY = 7;
 
     CircularDoublyLinkedList list;
+    MusicPlayer MusicP;
 
     int opcionLoadFile = filePathOption(boxHeight, boxWidth, boxPosX, boxPosY);
 
     switch (opcionLoadFile) {
     case 1:
-        loadFileMp3(getUserMusicPath().c_str(), list);
+        loadFileMp3(getUserMusicPath().c_str(), list, MusicP);
         break;
     case 2:
         string carpeta = filePathString(boxHeight, boxWidth, boxPosX, boxPosY);
-        loadFileMp3(carpeta.c_str(), list);
+        loadFileMp3(carpeta.c_str(), list, MusicP);
         break;
     }
-
+        
     boxHeight = list.count();
     boxPosY = 8;
-    char keyPress;
+    char keyPress = NULL;
+    string currentMusicPath = "";
 
     do {
         box(4, boxWidth, boxPosX, 2);
         showSelectedMusic(boxPosX, 2, list.getCurrentNode());
+
+        string musicPath = getUserMusicPath() + '/' + list.getCurrentNode()->MusicObj.getName();
+        std::replace(musicPath.begin(), musicPath.end(), '\\', '/');
+        gotoxy(0, (boxPosY + boxHeight + 5));
+
+        if (musicPath != currentMusicPath) {
+            MusicP.load(musicPath.c_str());
+            MusicP.play();
+            currentMusicPath = musicPath;
+        }
 
         listBox(boxHeight, boxWidth, boxPosX, boxPosY);
         showMusicList(boxPosX, boxPosY, list.getList());
@@ -57,10 +69,18 @@ int main() {
         keyPress = _getch();
 
         switch (keyPress) {
-        case PLAY: break;
-        case STOP: break;
-        case FASTFORWARD: break;
-        case REWIND: break;
+        case PLAY: 
+            MusicP.play();
+            break;
+        case STOP:
+            MusicP.stop();
+            break;
+        case FASTFORWARD: 
+            MusicP.seekForward();
+            break;
+        case REWIND:
+            MusicP.seekBackward();
+            break;
         case NEXT:
             list.nextNode();
             break;
@@ -87,9 +107,8 @@ string getUserMusicPath() {
     return "";
 }
 
-void loadFileMp3(const char* path, CircularDoublyLinkedList& list) {
+void loadFileMp3(const char* path, CircularDoublyLinkedList& list, MusicPlayer& musicP) {
     Music musicData;
-    MusicPlayer musicP;
 
     if (!std::filesystem::exists(path)) {
         std::cerr << "Error: The route '" << path << "' does not exist." << std::endl;

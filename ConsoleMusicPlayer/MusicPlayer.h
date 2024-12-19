@@ -16,4 +16,5 @@ class MusicPlayer {
         void seekForward();
         void seekBackward();
         double getDuration();
+        void freeUpResources();
 };

@@ -8,13 +8,12 @@ MusicPlayer::MusicPlayer(): stream(0) {
 }
 
 MusicPlayer::~MusicPlayer() {
-    if (this->stream) {
-        BASS_StreamFree(this->stream);
-    }
+    this->freeUpResources();
     BASS_Free();
 }
 
 void MusicPlayer::load(const char* filePath) {
+    this->freeUpResources();
     this->stream = BASS_StreamCreateFile(FALSE, filePath, 0, 0, 0);
     if (!this->stream) {
         std::cerr << "Error loading MP3 file: " << BASS_ErrorGetCode() << std::endl;
@@ -63,4 +62,10 @@ double MusicPlayer::getDuration() {
     QWORD length = BASS_ChannelGetLength(this->stream, BASS_POS_BYTE);
     double duration = BASS_ChannelBytes2Seconds(this->stream, length);
     return duration;
+}
+
+void MusicPlayer::freeUpResources() {
+    if (this->stream) {
+        BASS_StreamFree(this->stream);
+    }
 }
