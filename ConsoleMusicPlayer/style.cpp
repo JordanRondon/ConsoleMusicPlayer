@@ -5,6 +5,7 @@
 #include "Node.h"
 #include "CircularDoublyLinkedList.h"
 #include "MusicPlayer.h"
+#include "InputValidation.h"
 
 void gotoxy(int posX, int posY) {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -92,7 +93,7 @@ int filePathOption(int height, int width, int posX, int posY) {
 		gotoxy(posX + (width / 4), posY + 7); std::cout << "1. Default folder \"Music\"";
 		gotoxy(posX + (width / 4), posY + 8); std::cout << "2. Enter the path to my music folder";
 		gotoxy(posX + (width / 4), posY + 10); std::cout << "Please choose an option (1 or 2): ";
-		std::cin >> option;
+		option = validateInteger();
 		system("cls");
 	} while (!(option != 0 && (option == 1 || option == 2)));
 	
