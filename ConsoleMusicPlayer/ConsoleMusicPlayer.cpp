@@ -1,39 +1,72 @@
-#include <iostream>
+﻿#include <iostream>
 #include <filesystem>
+#include <conio.h>
 #include "CircularDoublyLinkedList.h"
 #include "MusicData.h"
 #include "MusicPlayer.h"
 #include "style.h"
 
+#define QUIT 113        // 'q': Quit
+#define PLAY 112        // 'P': Play
+#define STOP 115        // 's': Stop
+#define FASTFORWARD 102 // 'f' -> Forward
+#define REWIND 114      // 'r' -> Rewind
+#define NEXT 110        // 'n' -> Next
+#define PREVIOUS 98     // 'b' -> Previous
+
 using namespace std;
 
-std::string getUserMusicPath();
+string getUserMusicPath();
 void loadFileMp3(const char* ruta, CircularDoublyLinkedList& list);
 
 int main() {
 
+    int boxHeight = 11;
+    int boxWidth = 70;
+    int boxPosX = 25;
+    int boxPosY = 7;
+
     CircularDoublyLinkedList list;
 
-    int opcionLoadFile = filePathOption(11, 70, 25, 7);
+    int opcionLoadFile = filePathOption(boxHeight, boxWidth, boxPosX, boxPosY);
 
     switch (opcionLoadFile) {
     case 1:
         loadFileMp3(getUserMusicPath().c_str(), list);
         break;
     case 2:
-        string carpeta = filePathString(11, 70, 25, 7);
+        string carpeta = filePathString(boxHeight, boxWidth, boxPosX, boxPosY);
         loadFileMp3(carpeta.c_str(), list);
         break;
     }
 
-    cout << list.count() << endl; 
+    boxHeight = list.count();
+    boxPosY = 8;
+    char keyPress;
 
-    
+    do {
+        box(4, boxWidth, boxPosX, 2);
+        listBox(boxHeight, boxWidth, boxPosX, boxPosY);
+        gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
+        cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
+        keyPress = _getch();
+
+        switch (keyPress) {
+        case QUIT: break;
+        case PLAY: break;
+        case STOP: break;
+        case FASTFORWARD: break;
+        case REWIND: break;
+        case NEXT: break;
+        case PREVIOUS: break;
+        }
+        system("CLS");
+    } while (keyPress != QUIT);
 
     return 0;
 }
 
-std::string getUserMusicPath() {
+string getUserMusicPath() {
     char* userProfile = nullptr;
     size_t len = 0;
 
