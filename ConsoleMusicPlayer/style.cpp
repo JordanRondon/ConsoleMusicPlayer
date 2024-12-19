@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include <iostream>
+#include "Node.h"
 
 void gotoxy(int posX, int posY) {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -8,37 +9,6 @@ void gotoxy(int posX, int posY) {
 	dwPos.Y = posY;
 	SetConsoleCursorPosition(hcon, dwPos);
 }
-
-//int menu() {
-//	//menú principal
-//	int opcion;
-//	do {
-//		system("cls");
-//		cout << "\t.:REPRODUCTOR DE MUSICA:." << endl;
-//		cout << "\t------------------------" << endl;
-//		cout << "\n1. Agregar Musica" << endl;
-//		cout << "2. Eliminar Musica" << endl;
-//		cout << "3. Escuchar Musica" << endl;
-//		cout << "4. Salir" << endl;
-//		cout << "Ingresa uno de le las opciones: "; opcion = validarEntero();
-//	} while (opcion <= 0 || opcion >= 5);
-//
-//	return opcion;
-//}
-
-//int menu2(int x, int y) {
-//	//menú del reproductor de música
-//	int opcion;
-//
-//	do {
-//		gotoxy(x, y + 8); cout << "1. siguiente";
-//		gotoxy(x, y + 9); cout << "2. anterior";
-//		gotoxy(x, y + 10); cout << "3. salir";
-//		gotoxy(x, y + 11); cout << "Ingresa uno de le las opciones: "; opcion = validarEntero();
-//	} while (opcion <= 0 || opcion >= 4);
-//
-//	return opcion;
-//}
 
 void box(int height, int width, int posX, int posY) {
 	//-----------------horizontal lines--------------------
@@ -149,4 +119,20 @@ std::string filePathString(int height, int width, int posX, int posY) {
 	} while (path == "");
 
 	return path;
+}
+
+void showMusicList(int posX, int posY, Node* list) {
+	if (list != nullptr) {
+		Node* currentNode = list;
+		int iterator = 0;
+
+		do {
+			gotoxy(posX + 1, (posY + iterator) +3);
+			std::cout << iterator + 1 << '.' << currentNode->MusicObj.getName();
+			gotoxy((posX + 62), (posY + iterator) +3);
+			std::cout << currentNode->MusicObj.getDurationSeconds();
+			currentNode = currentNode->next;
+			iterator++;
+		} while (currentNode != list);
+	}
 }

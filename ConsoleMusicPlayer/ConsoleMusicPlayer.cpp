@@ -47,8 +47,10 @@ int main() {
     do {
         box(4, boxWidth, boxPosX, 2);
         listBox(boxHeight, boxWidth, boxPosX, boxPosY);
+        showMusicList(boxPosX, boxPosY, list.getList());
         gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
         cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
+
         keyPress = _getch();
 
         switch (keyPress) {
