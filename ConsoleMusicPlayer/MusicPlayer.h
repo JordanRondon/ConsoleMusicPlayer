@@ -5,6 +5,7 @@
 class MusicPlayer {
 	private:
 		HSTREAM stream;
+        float volume;
 	
 	public:
         MusicPlayer();
@@ -16,4 +17,8 @@ class MusicPlayer {
         void seekForward();
         void seekBackward();
         double getDuration();
+        float getVolume();
+        void freeUpResources();
+        void volumeUp();
+        void volumeDown();
 };

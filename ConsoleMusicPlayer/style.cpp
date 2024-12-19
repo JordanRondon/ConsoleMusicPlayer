@@ -1,5 +1,7 @@
 #include <Windows.h>
 #include <iostream>
+#include <sstream>
+#include <iomanip> 
 #include "Node.h"
 
 void gotoxy(int posX, int posY) {
@@ -137,16 +139,21 @@ void showMusicList(int posX, int posY, Node* list) {
 	}
 }
 
-void showSelectedMusic(int posX, int posY, Node* list) {
-	gotoxy(posX+2, posY+2);
+void showSelectedMusic(int posX, int posY, Node* list, float volume) {
+	gotoxy(posX+3, posY+1);
 	std::cout << "Selected music:";
-	
 	gotoxy(posX + 10, posY + 3);
 	std::cout << list->MusicObj.getName();
 	
-	gotoxy(posX + 30, posY + 2);
+	gotoxy(posX + 29, posY + 1);
 	std::cout << "Duration:";
-	
-	gotoxy(posX + 40, posY + 2);
+	gotoxy(posX + 39, posY + 1);
 	std::cout << list->MusicObj.convertSecondsToTime();
+
+	gotoxy(posX + 56, posY + 1);
+	std::cout << "Volume:";
+	gotoxy(posX + 64, posY + 1);
+	std::ostringstream oss;
+	oss << std::fixed << std::setprecision(0) << volume * 100;
+	std::cout << oss.str() + "%";
 }
