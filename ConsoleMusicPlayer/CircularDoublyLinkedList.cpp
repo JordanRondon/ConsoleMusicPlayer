@@ -2,11 +2,19 @@
 #include <string> 
 
 CircularDoublyLinkedList::CircularDoublyLinkedList() :
-	list(nullptr) {
+	list(nullptr), currentNode(nullptr) {
 }
 
 Node* CircularDoublyLinkedList::getList() {
 	return this->list;
+}
+
+Node* CircularDoublyLinkedList::getCurrentNode() {
+	if (this->currentNode != nullptr) {
+		return currentNode;
+	}
+	this->currentNode = this->list;
+	return this->currentNode;
 }
 
 void CircularDoublyLinkedList::insertEnd(Music musicInf) {
@@ -101,4 +109,16 @@ int CircularDoublyLinkedList::count() {
 	}
 
 	return totalItems;
+}
+
+void CircularDoublyLinkedList::nextNode() {
+	if (this->currentNode != nullptr) {
+		this->currentNode = this->currentNode->next;
+	}
+}
+
+void CircularDoublyLinkedList::previousNode() {
+	if (this->currentNode != nullptr) {
+		this->currentNode = this->currentNode->previous;
+	}
 }

@@ -25,3 +25,10 @@ string Music::getName() {
 int Music::getDurationSeconds() {
 	return this->durationSeconds;
 }
+
+string Music::convertSecondsToTime() {
+	int seconds = this->getDurationSeconds() % 60;
+	int minutes = (this->getDurationSeconds() / 60) % 60;
+	int hours = this->getDurationSeconds() / 3600;
+	return std::to_string(hours) + ':' + std::to_string(minutes) + ':' + std::to_string(seconds);
+}
