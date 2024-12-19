@@ -3,6 +3,8 @@
 #include <sstream>
 #include <iomanip> 
 #include "Node.h"
+#include "CircularDoublyLinkedList.h"
+#include "MusicPlayer.h"
 
 void gotoxy(int posX, int posY) {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -79,16 +81,6 @@ void listBox(int height, int width, int posX, int posY) {
 	//gotoxy(posX + (width - 6) / 2, posY + height + 3); std::cout << (char)202;
 }
 
-void barraDeProgreso(int width, int posX, int posY) {
-	for (int i = 0; i < width; i++) {//linea principal
-		gotoxy(posX + i, posY); std::cout << "-";
-	}
-	for (int i = 0; i < width; i++) {//animacion de progreso
-		gotoxy(posX + i, posY); std::cout << (char)220;
-		Sleep(100);//retarda por cierto tiempo el proceso
-	}
-}
-
 int filePathOption(int height, int width, int posX, int posY) {
 	int option = 0;
 
@@ -156,4 +148,12 @@ void showSelectedMusic(int posX, int posY, Node* list, float volume) {
 	std::ostringstream oss;
 	oss << std::fixed << std::setprecision(0) << volume * 100;
 	std::cout << oss.str() + "%";
+}
+
+void musicListInterface(int height, int width, int posX, int posY, CircularDoublyLinkedList& list, MusicPlayer& MusicP) {
+	box(4, width, posX, 2);
+	showSelectedMusic(posX, 2, list.getCurrentNode(), MusicP.getVolume());
+
+	listBox(height, width, posX, posY);
+	showMusicList(posX, posY, list.getList());
 }
