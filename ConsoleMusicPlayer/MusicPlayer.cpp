@@ -1,7 +1,7 @@
 #include <iostream>
 #include "MusicPlayer.h"
 
-MusicPlayer::MusicPlayer(): stream(0) {
+MusicPlayer::MusicPlayer(): stream(0), volume(1.0f) {
     if (!BASS_Init(-1, 44100, 0, 0, NULL)) {
         std::cerr << "Error initializing BASS: " << BASS_ErrorGetCode() << std::endl;
     }
@@ -15,8 +15,13 @@ MusicPlayer::~MusicPlayer() {
 void MusicPlayer::load(const char* filePath) {
     this->freeUpResources();
     this->stream = BASS_StreamCreateFile(FALSE, filePath, 0, 0, 0);
+    
     if (!this->stream) {
         std::cerr << "Error loading MP3 file: " << BASS_ErrorGetCode() << std::endl;
+    }
+
+    if (!BASS_ChannelSetAttribute(this->stream, BASS_ATTRIB_VOL, this->volume)) {
+        std::cerr << "Error al configurar el volumen" << std::endl;
     }
 }
 
@@ -64,8 +69,34 @@ double MusicPlayer::getDuration() {
     return duration;
 }
 
+float MusicPlayer::getVolume() {
+    return this->volume;
+}
+
 void MusicPlayer::freeUpResources() {
     if (this->stream) {
         BASS_StreamFree(this->stream);
+    }
+}
+
+void MusicPlayer::volumeUp() {
+    if (this->volume >= 1.0f)
+        return;
+
+    this->volume = this->volume + 0.1f;
+    if (!BASS_ChannelSetAttribute(this->stream, BASS_ATTRIB_VOL, volume)) {
+        std::cerr << "Error al configurar el volumen" << std::endl;
+    }
+}
+
+void MusicPlayer::volumeDown() {
+    if (this->volume <= 0.0f)
+        return;
+    if ((this->volume - 0.1f) < 0.0f)
+        this->volume = 0.0f;
+    else
+        this->volume = this->volume - 0.1f;
+    if (!BASS_ChannelSetAttribute(this->stream, BASS_ATTRIB_VOL, volume)) {
+        std::cerr << "Error al configurar el volumen" << std::endl;
     }
 }

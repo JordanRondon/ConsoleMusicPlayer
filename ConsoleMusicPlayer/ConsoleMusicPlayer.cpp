@@ -6,13 +6,15 @@
 #include "MusicPlayer.h"
 #include "style.h"
 
-#define QUIT 113        // 'q' -> Quit
-#define PLAY 112        // 'P' -> Play
-#define STOP 115        // 's' -> Stop
-#define FASTFORWARD 102 // 'f' -> Forward
-#define REWIND 114      // 'r' -> Rewind
-#define NEXT 110        // 'n' -> Next
-#define PREVIOUS 98     // 'b' -> Previous
+#define QUIT 113        // 'q'
+#define PLAY 112        // 'P'
+#define STOP 115        // 's'
+#define FASTFORWARD 102 // 'f'
+#define REWIND 114      // 'r'
+#define NEXT 110        // 'n'
+#define PREVIOUS 98     // 'b'
+#define VOLUMEUP 43     // '+'
+#define VOLUMEDOWN 45   // '-'
 
 using namespace std;
 
@@ -48,11 +50,11 @@ int main() {
 
     do {
         box(4, boxWidth, boxPosX, 2);
-        showSelectedMusic(boxPosX, 2, list.getCurrentNode());
+        showSelectedMusic(boxPosX, 2, list.getCurrentNode(), MusicP.getVolume());
 
         string musicPath = getUserMusicPath() + '/' + list.getCurrentNode()->MusicObj.getName();
         std::replace(musicPath.begin(), musicPath.end(), '\\', '/');
-        gotoxy(0, (boxPosY + boxHeight + 5));
+        gotoxy(0, (boxPosY + boxHeight + 6));
 
         if (musicPath != currentMusicPath) {
             MusicP.load(musicPath.c_str());
@@ -65,6 +67,8 @@ int main() {
 
         gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
         cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
+        gotoxy(boxPosX + 22, (boxPosY + boxHeight + 5));
+        cout << "+: VOLUMEUP -:VOLUMEDOWN";
 
         keyPress = _getch();
 
@@ -80,6 +84,12 @@ int main() {
             break;
         case REWIND:
             MusicP.seekBackward();
+            break;
+        case VOLUMEUP:
+            MusicP.volumeUp();
+            break;
+        case VOLUMEDOWN:
+            MusicP.volumeDown();
             break;
         case NEXT:
             list.nextNode();
