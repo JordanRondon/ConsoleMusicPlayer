@@ -130,9 +130,23 @@ void showMusicList(int posX, int posY, Node* list) {
 			gotoxy(posX + 1, (posY + iterator) +3);
 			std::cout << iterator + 1 << '.' << currentNode->MusicObj.getName();
 			gotoxy((posX + 62), (posY + iterator) +3);
-			std::cout << currentNode->MusicObj.getDurationSeconds();
+			std::cout << currentNode->MusicObj.convertSecondsToTime();
 			currentNode = currentNode->next;
 			iterator++;
 		} while (currentNode != list);
 	}
+}
+
+void showSelectedMusic(int posX, int posY, Node* list) {
+	gotoxy(posX+2, posY+2);
+	std::cout << "Selected music:";
+	
+	gotoxy(posX + 10, posY + 3);
+	std::cout << list->MusicObj.getName();
+	
+	gotoxy(posX + 30, posY + 2);
+	std::cout << "Duration:";
+	
+	gotoxy(posX + 40, posY + 2);
+	std::cout << list->MusicObj.convertSecondsToTime();
 }

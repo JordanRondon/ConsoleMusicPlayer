@@ -14,4 +14,5 @@ class Music {
 		void setDurationSeconds(int durationSeconds);
 		std::string getName();
 		int getDurationSeconds();
+		std::string convertSecondsToTime();
 };

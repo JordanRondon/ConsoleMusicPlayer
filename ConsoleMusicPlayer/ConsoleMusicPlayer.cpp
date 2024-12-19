@@ -46,21 +46,27 @@ int main() {
 
     do {
         box(4, boxWidth, boxPosX, 2);
+        showSelectedMusic(boxPosX, 2, list.getCurrentNode());
+
         listBox(boxHeight, boxWidth, boxPosX, boxPosY);
         showMusicList(boxPosX, boxPosY, list.getList());
+
         gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
         cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
 
         keyPress = _getch();
 
         switch (keyPress) {
-        case QUIT: break;
         case PLAY: break;
         case STOP: break;
         case FASTFORWARD: break;
         case REWIND: break;
-        case NEXT: break;
-        case PREVIOUS: break;
+        case NEXT:
+            list.nextNode();
+            break;
+        case PREVIOUS:
+            list.previousNode();
+            break;
         }
         system("CLS");
     } while (keyPress != QUIT);
