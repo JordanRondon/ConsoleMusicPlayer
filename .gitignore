@@ -49,6 +49,8 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+!*.vcxproj.user
+
 # Mono auto generated files
 mono_crash.*
 
