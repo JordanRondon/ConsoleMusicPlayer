@@ -138,7 +138,7 @@
     <ClCompile Include="CircularDoublyLinkedList.cpp" />
     <ClCompile Include="ConsoleMusicPlayer.cpp" />
     <ClCompile Include="FileUtils.cpp" />
-    <ClCompile Include="InputValidation.h.cpp" />
+    <ClCompile Include="InputValidation.cpp" />
     <ClCompile Include="MusicData.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="style.cpp" />
