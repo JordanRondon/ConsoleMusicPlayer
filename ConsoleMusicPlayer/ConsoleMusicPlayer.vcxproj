@@ -138,6 +138,7 @@
     <ClCompile Include="CircularDoublyLinkedList.cpp" />
     <ClCompile Include="ConsoleMusicPlayer.cpp" />
     <ClCompile Include="FileUtils.cpp" />
+    <ClCompile Include="InputValidation.cpp" />
     <ClCompile Include="MusicData.cpp" />
     <ClCompile Include="MusicPlayer.cpp" />
     <ClCompile Include="style.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="CircularDoublyLinkedList.h" />
     <ClInclude Include="FileUtils.h" />
+    <ClInclude Include="InputValidation.h" />
     <ClInclude Include="MusicData.h" />
     <ClInclude Include="MusicPlayer.h" />
     <ClInclude Include="Node.h" />
