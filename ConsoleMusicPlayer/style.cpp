@@ -7,6 +7,12 @@
 #include "MusicPlayer.h"
 #include "InputValidation.h"
 
+/**
+ * @brief Moves the console cursor to the specified position.
+ *
+ * @param posX The X-coordinate (horizontal position).
+ * @param posY The Y-coordinate (vertical position).
+ */
 void gotoxy(int posX, int posY) {
 	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD dwPos;
@@ -15,6 +21,14 @@ void gotoxy(int posX, int posY) {
 	SetConsoleCursorPosition(hcon, dwPos);
 }
 
+/**
+ * @brief Draws a box in the console with the specified dimensions and position.
+ *
+ * @param height The height of the box.
+ * @param width The width of the box.
+ * @param posX The X-coordinate of the top-left corner.
+ * @param posY The Y-coordinate of the top-left corner.
+ */
 void box(int height, int width, int posX, int posY) {
 	//-----------------horizontal lines--------------------
 	for (int i = 0; i < width; i++) {
@@ -37,6 +51,14 @@ void box(int height, int width, int posX, int posY) {
 	gotoxy(posX + width, posY + height + 1); std::cout << (char)188; //rigth
 }
 
+/**
+ * @brief Draws a list box in the console with a specific layout for a music list.
+ *
+ * @param height The height of the list box.
+ * @param width The width of the list box.
+ * @param posX The X-coordinate of the top-left corner.
+ * @param posY The Y-coordinate of the top-left corner.
+ */
 void listBox(int height, int width, int posX, int posY) {
 	//-----------------horizontal lines--------------------
 	for (int i = 0; i < width; i++) {
@@ -82,6 +104,15 @@ void listBox(int height, int width, int posX, int posY) {
 	//gotoxy(posX + (width - 6) / 2, posY + height + 3); std::cout << (char)202;
 }
 
+/**
+ * @brief Displays a menu to select the file path option for the music folder.
+ *
+ * @param height The height of the box for the menu.
+ * @param width The width of the box for the menu.
+ * @param posX The X-coordinate of the menu.
+ * @param posY The Y-coordinate of the menu.
+ * @return An integer indicating the user's choice (1 or 2).
+ */
 int filePathOption(int height, int width, int posX, int posY) {
 	int option = 0;
 
@@ -100,6 +131,15 @@ int filePathOption(int height, int width, int posX, int posY) {
 	return option;
 }
 
+/**
+ * @brief Prompts the user to enter the path of the music folder.
+ *
+ * @param height The height of the box for the input prompt.
+ * @param width The width of the box for the input prompt.
+ * @param posX The X-coordinate of the input prompt.
+ * @param posY The Y-coordinate of the input prompt.
+ * @return A string containing the entered path.
+ */
 std::string filePathString(int height, int width, int posX, int posY) {
 	std::string path = "";
 
@@ -116,6 +156,13 @@ std::string filePathString(int height, int width, int posX, int posY) {
 	return path;
 }
 
+/**
+ * @brief Displays a list of music tracks in a circular doubly linked list.
+ *
+ * @param posX The X-coordinate of the list display.
+ * @param posY The Y-coordinate of the list display.
+ * @param list A pointer to the head node of the circular doubly linked list.
+ */
 void showMusicList(int posX, int posY, Node* list) {
 	if (list != nullptr) {
 		Node* currentNode = list;
@@ -132,6 +179,14 @@ void showMusicList(int posX, int posY, Node* list) {
 	}
 }
 
+/**
+ * @brief Displays the currently selected music track along with its details.
+ *
+ * @param posX The X-coordinate of the display.
+ * @param posY The Y-coordinate of the display.
+ * @param list A pointer to the node of the selected music track.
+ * @param volume The current volume level as a float.
+ */
 void showSelectedMusic(int posX, int posY, Node* list, float volume) {
 	gotoxy(posX+3, posY+1);
 	std::cout << "Selected music:";
@@ -151,6 +206,16 @@ void showSelectedMusic(int posX, int posY, Node* list, float volume) {
 	std::cout << oss.str() + "%";
 }
 
+/**
+ * @brief Creates a user interface for the music list, displaying the selected music and the full list.
+ *
+ * @param height The height of the interface.
+ * @param width The width of the interface.
+ * @param posX The X-coordinate of the interface.
+ * @param posY The Y-coordinate of the interface.
+ * @param list The circular doubly linked list of music tracks.
+ * @param MusicP The MusicPlayer object used for playback.
+ */
 void musicListInterface(int height, int width, int posX, int posY, CircularDoublyLinkedList& list, MusicPlayer& MusicP) {
 	box(4, width, posX, 2);
 	showSelectedMusic(posX, 2, list.getCurrentNode(), MusicP.getVolume());
