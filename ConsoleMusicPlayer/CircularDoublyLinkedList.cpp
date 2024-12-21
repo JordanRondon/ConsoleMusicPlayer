@@ -1,14 +1,31 @@
 #include "CircularDoublyLinkedList.h"
 #include <string> 
 
+/**
+ * @brief Constructor for the CircularDoublyLinkedList Class.
+ *
+ * Initializes an empty circular doubly linked list.
+ */
 CircularDoublyLinkedList::CircularDoublyLinkedList() :
 	list(nullptr), currentNode(nullptr) {
 }
 
+/**
+ * @brief Gets the starting node of the list.
+ *
+ * @return A pointer to the first node in the list.
+ */
 Node* CircularDoublyLinkedList::getList() {
 	return this->list;
 }
 
+/**
+ * @brief Gets the current node in the list.
+ *
+ * If no current node is defined, initializes to the first node in the list.
+ *
+ * @return A pointer to the position of the current node in the list.
+ */
 Node* CircularDoublyLinkedList::getCurrentNode() {
 	if (this->currentNode != nullptr) {
 		return currentNode;
@@ -17,8 +34,12 @@ Node* CircularDoublyLinkedList::getCurrentNode() {
 	return this->currentNode;
 }
 
+/**
+ * @brief Inserts a new node at the end of the list.
+ *
+ * @param musicInf Music type information that will be stored in the new node.
+ */
 void CircularDoublyLinkedList::insertEnd(Music musicInf) {
-	
 	Node* newNode = new Node;
 	Node* lastNode;
 
@@ -38,66 +59,14 @@ void CircularDoublyLinkedList::insertEnd(Music musicInf) {
 	list->previous = lastNode;
 
 	list = list->next;
-
 }
 
-void CircularDoublyLinkedList::deletePosition(int index) {
-	
-	Node* currentNode = list;
-	int currentPosition = 0;
-
-	if (list != NULL) {
-		if (list->previous == list && list->next == list) {
-			list = NULL;
-			return;
-		}
-
-		do {
-			currentPosition++;
-			if (currentPosition < index)
-				currentNode = currentNode->next;
-		} while (currentPosition < index && currentNode != list);
-
-		if (currentNode->previous == list->previous) {
-			//remove the first node
-			//checks if the data to be deleted is at the beginning of the list
-			list = currentNode->next;
-			list->previous = currentNode->previous;
-			list->previous->next = list;
-		}
-		else if (currentNode->next == list) {
-			//remove the last node
-			//checks if the data to be deleted is at the end of the list
-			currentNode->previous->next = list;
-			list->previous = currentNode->previous;
-		}
-		else {
-			//delete at any position
-			currentNode->previous->next = currentNode->next;
-			currentNode->next->previous = currentNode->previous;
-		}
-
-		delete currentNode;
-	}
-
-}
-
-bool CircularDoublyLinkedList::searchElement(std::string musicName) {
-	Node* currentNode = list;
-
-	if (list != NULL) {
-		do {
-			if (currentNode->MusicObj.getName() == musicName)
-				return true;
-			currentNode = currentNode->next;
-		} while (currentNode != list);
-	}
-
-	return false;
-}
-
+/**
+ * @brief Counts the total number of nodes in the list.
+ *
+ * @return The total number of nodes in the list.
+ */
 int CircularDoublyLinkedList::count() {
-	
 	Node* currentNode = list;
 	int totalItems = 0;
 
@@ -111,12 +80,23 @@ int CircularDoublyLinkedList::count() {
 	return totalItems;
 }
 
+
+/**
+ * @brief Move to the next node in the list.
+ *
+ * Move the current node to the next node in the list.
+ */
 void CircularDoublyLinkedList::nextNode() {
 	if (this->currentNode != nullptr) {
 		this->currentNode = this->currentNode->next;
 	}
 }
 
+/**
+ * @brief Go back to the previous node in the list.
+ *
+ * Change the current node to the previous node in the list.
+ */
 void CircularDoublyLinkedList::previousNode() {
 	if (this->currentNode != nullptr) {
 		this->currentNode = this->currentNode->previous;

@@ -33,6 +33,7 @@ int main() {
     CircularDoublyLinkedList List;
     MusicPlayer MusicP;
 
+    // Prompt the user to select a music folder and load MP3 files accordingly.
     int opcionLoadFile = filePathOption(boxHeight, boxWidth, boxPosX, boxPosY);
 
     switch (opcionLoadFile) {
@@ -44,7 +45,7 @@ int main() {
         loadFileMp3(carpeta.c_str(), List, MusicP);
         break;
     }
-        
+
     boxHeight = List.count();
     boxPosY = 8;
     char keyPress = NULL;
@@ -56,6 +57,7 @@ int main() {
     do {
         musicListInterface(boxHeight, boxWidth, boxPosX, boxPosY, List, MusicP);
 
+        // Load and play music track
         string musicPath = getUserMusicPath() + '/' + List.getCurrentNode()->MusicObj.getName();
         std::replace(musicPath.begin(), musicPath.end(), '\\', '/');
         gotoxy(0, (boxPosY + boxHeight + 6));
@@ -66,6 +68,7 @@ int main() {
             currentMusicPath = musicPath;
         }
 
+        //Instructions for music control
         gotoxy(boxPosX + 6, (boxPosY + boxHeight + 4)); 
         cout << "q: QUIT p:PLAY s:STOP n:NEXT b:PREVIOUS f:FORWARD r:REWIND";
         gotoxy(boxPosX + 22, (boxPosY + boxHeight + 5));
@@ -108,6 +111,19 @@ int main() {
     return 0;
 }
 
+/**
+ * @brief A thread function that automatically plays the next song in the playlist when the current song finishes.
+ *
+ * @param MusicP A reference to the MusicPlayer object handling music playback.
+ * @param List A reference to the CircularDoublyLinkedList containing the playlist.
+ * @param currentMusicPath A reference to the string storing the path of the currently playing music.
+ * @param running An atomic boolean used to control the thread's execution state.
+ *
+ * This function continuously checks if the current song has finished playing. When a song finishes, it advances
+ * to the next song in the playlist, updates the current music path, loads the next song into the music player,
+ * and starts playback. The thread runs as long as the `running` flag is true. When the flag is set to false,
+ * the function stops playback and exits.
+ */
 void threadNextSong(MusicPlayer& MusicP, CircularDoublyLinkedList& List, string& currentMusicPath, std::atomic<bool>& running) {
     while (running) {
         if (MusicP.isFinished()) {

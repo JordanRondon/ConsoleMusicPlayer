@@ -2,7 +2,15 @@
 #include <conio.h>
 #include <iostream>
 
-
+/**
+ * @brief Reads and validates an integer input from the user.
+ *
+ * This function captures user input character by character, allowing only numeric digits (0-9).
+ * It also supports backspace for corrections and stops reading when the Enter key is pressed.
+ * The validated integer is then returned.
+ *
+ * @return The validated integer entered by the user.
+ */
 int validateInteger() {
 	char keyPressed, content[100];
 	int index = 0;
